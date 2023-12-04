@@ -23,10 +23,45 @@ const httpInterceptor = {
     if (token) {
       options.header.Authorization = token
     }
-
-    console.log(options)
   },
 }
 
 uni.addInterceptor('request', httpInterceptor)
 uni.addInterceptor('uploadFile', httpInterceptor)
+
+interface Data<T> {
+  code: string
+  msg: string
+  result: T
+}
+
+export const http = <T>(options: UniApp.RequestOptions) => {
+  return new Promise<Data<T>>((resolve, reject) => {
+    uni.request({
+      ...options,
+      success(result) {
+        if (result.statusCode >= 200 && result.statusCode < 300) {
+          resolve(result.data as Data<T>)
+        } else if (result.statusCode === 401) {
+          const memberStore = useMemberStore()
+          memberStore.clearProfile()
+          uni.navigateTo({ url: '/pages/login/login' })
+          reject(result)
+        } else {
+          uni.showToast({
+            title: (result.data as Data<T>).msg || '请求错误',
+            icon: 'none',
+          })
+          reject(result)
+        }
+      },
+      fail(err) {
+        uni.showToast({
+          title: '网络错误',
+          icon: 'none',
+        })
+        reject(err)
+      },
+    })
+  })
+}
