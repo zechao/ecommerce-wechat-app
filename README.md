@@ -6,9 +6,7 @@
 
 当前仓库是 **uni-app** 开发的**微信小程序端**，通过**条件编译**能兼容 **H5 端** 和 **App 端**。
 
-### 在线体验
 
-<table>
   <tr>
     <td>体验小程序端</td>
     <td>体验 H5 端</td>
@@ -41,7 +39,7 @@
 
 ### 项目架构
 
-![项目架构图](./README/images/project_structure.png)
+![项目架构图](.README/images/project_structure.png)
 
 ## 项目演示
 
