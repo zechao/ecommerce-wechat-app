@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { HotItem, BannerItem, CategoryItem } from '@/types/home'
-import type { XtxGuessInstance } from '@/components/components'
 
 import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotAPI } from '@/services/home'
 import { onLoad } from '@dcloudio/uni-app'
@@ -10,6 +9,7 @@ import CustomNavbar from './components/CustomNavbar.vue'
 import CategoryPanel from './components/CategoryPanel.vue'
 import HotPanel from './components/HotPanel.vue'
 import PageSkeleton from './components/PageSkeleton.vue'
+import { useGuessList } from '@/composables'
 
 const categories = ref<CategoryItem[]>([])
 const banners = ref<BannerItem[]>([])
@@ -38,10 +38,7 @@ onLoad(async () => {
   isLoading.value = false
 })
 
-const guessRef = ref<XtxGuessInstance>()
-const onScrollToLower = () => {
-  guessRef.value?.getMore()
-}
+const { guessRef, onScrolltoLower } = useGuessList()
 
 const isTrigged = ref(false)
 const onRefresherrefresh = async () => {
@@ -69,7 +66,7 @@ const onRefresherrefresh = async () => {
     refres
     class="scroll-view"
     scroll-y
-    @scrolltolower="onScrollToLower"
+    @scrolltolower="onScrolltoLower"
   >
     <PageSkeleton v-if="isLoading" />
     <template v-else>
