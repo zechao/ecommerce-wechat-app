@@ -8,7 +8,9 @@ const emit = defineEmits<{
 <template>
   <view class="service-panel">
     <!-- 关闭按钮 -->
-    <text class="close icon-close" @tap="emit('close')"></text>
+    <view @tap="emit('close')">
+      <text class="close icon-close"></text>
+    </view>
     <!-- 标题 -->
     <view class="title">服务说明</view>
     <!-- 内容 -->
